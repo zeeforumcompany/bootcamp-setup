@@ -1,0 +1,22 @@
+name: Pana Bootcamp CI
+
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Deploying to Surge
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Surge
+        run: npm i -g surge
+      - name: Run Surge
+        run: surge ./ bootcamp-zeeforumcompany.surge.sh --token ${{ secrets.SURGE_TOKEN }}
